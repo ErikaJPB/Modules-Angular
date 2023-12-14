@@ -1,5 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {
+  NoPreloading,
+  PreloadAllModules,
+  RouterModule,
+  Routes,
+} from '@angular/router';
+import { OptInPreloadingStrategy } from './preloading-strategies/opt-in-preloading-strategy';
+import { NetworkAwarePreloadStrategy } from './preloading-strategies/network-aware-preloading-strategy';
 
 const routes: Routes = [
   {
@@ -24,6 +31,9 @@ const routes: Routes = [
       import('./modules/pages/profile/profile.module').then(
         (m) => m.ProfileModule
       ),
+    data: {
+      preload: true, // Este modulo se va a precargar bajo la estrategia de precarga OptIn.
+    },
   },
   // Siempre el 404 se pondra en el modulo de enrutado principal
   {
@@ -36,7 +46,18 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      // 1. PreloadAllModules: precarga todos los modulos de las rutas. Evita carga perezosa.
+      // preloadingStrategy: PreloadAllModules,
+      // 2. NoPreloading: no precarga ningun modulo de las rutas. Forza la carga perezosa.
+      // preloadingStrategy: NoPreloading,
+      // 3. Estrategia personalizada de precarga por opciones en rutas.
+      // preloadingStrategy: OptInPreloadingStrategy,
+      // 4. Estrategia personalizada de precarga por red o conexion a internet.
+      preloadingStrategy: NetworkAwarePreloadStrategy,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { OptInPreloadingStrategy } from './preloading-strategies/opt-in-preloading-strategy';
 import { NetworkAwarePreloadStrategy } from './preloading-strategies/network-aware-preloading-strategy';
+import { OnDemandPreloadingStrategy } from './preloading-strategies/on-demand-preloading-strategy';
 
 @NgModule({
   declarations: [AppComponent, NavComponent],
@@ -29,6 +30,8 @@ import { NetworkAwarePreloadStrategy } from './preloading-strategies/network-awa
     // Importamos las estrategias de precarga para poder usarlas en el modulo de enrutado principal
     OptInPreloadingStrategy,
     NetworkAwarePreloadStrategy,
+    // Estrategia personalizada
+    OnDemandPreloadingStrategy,
   ],
   bootstrap: [AppComponent],
 })
